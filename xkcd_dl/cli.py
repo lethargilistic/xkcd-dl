@@ -238,17 +238,14 @@ def set_custom_path(custom_path):
 
 def show_xkcd(num):
     download_one(read_dict(), num)
-    path = '{current_directory}/xkcd_archive/{name}/'.format(
-        current_directory=WORKING_DIRECTORY, 
-        name=num
-    )
-    call(["cat", path + "description.txt"])
+    path = os.path.join(WORKING_DIRECTORY, 'xkcd_archive', str(num))
+    call(["cat", os.path.join(path, "description.txt")])
     try:
-        img_path = glob.glob(path + "*.jpeg")[0]
+        img_path = glob.glob(os.path.join(path, "*.jpeg"))[0]
         call([IMAGE_HANDLER, img_path])
     except IndexError:
         try: 
-            img_path = glob.glob(path + "*.png")[0]
+            img_path = glob.glob(os.path.join(path, "*.png"))[0]
             call([IMAGE_HANDLER, img_path])
         except IndexError:
             print('Dynamic comic. Please visit in browser.')
